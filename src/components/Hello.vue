@@ -30,31 +30,67 @@
             <v-list-tile-action>
               <v-icon>pause</v-icon>
             </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>{{tarea.nombre}}</v-list-tile-title>
-              </v-list-tile-content>
+            <v-list-tile-content>
+              <v-list-tile-title>{{tarea.nombre}}</v-list-tile-title>
+            </v-list-tile-content>
           </v-list-tile>
         </v-list>
       </v-flex>
+    </v-layout>
+
+    <!-- Modal -->
+    <v-layout row justify-center>
+      <v-dialog v-model="dialog">
+        <!-- <v-fab-transition> -->
+          <v-btn class="blue" slot="activator">
+            <v-icon>add</v-icon>
+          </v-btn>
+        <!-- </v-fab-transition> -->
+        <v-card>
+          <v-card-title>
+            <span class="headline">Agregar nueva tarea</span>
+          </v-card-title>
+          <v-card-text>
+            <v-text-field label="Nombre" v-model="nombre"></v-text-field>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn @click.native="dialog = false">Cerrar</v-btn>
+            <v-btn @click="onAdd" @click.native="dialog = false">Guardar</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-layout>
   </v-container>
 </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import {
+  mapGetters,
+  mapMutations,
+  mapActions
+} from 'vuex'
 export default {
   name: 'hello',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      nombre: '',
+      dialog: true
     }
   },
   computed: {
     ...mapGetters(['tareasTerminadas', 'tareasNoTerminadas'])
   },
   methods: {
-    ...mapMutations(['toggleTarea'])
+    ...mapMutations(['toggleTarea']),
+    ...mapActions(['addTarea']),
+    onAdd () {
+      this.addTarea({
+        nombre: this.nombre,
+        status: false
+      })
+    }
   }
 }
 </script>

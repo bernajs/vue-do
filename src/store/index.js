@@ -16,6 +16,10 @@ export default new Vuex.Store({
     tareasNoTerminadas: (state) => { return state.tareas.filter((tarea) => !tarea.status) }
   },
   mutations: {
-    toggleTarea (state, tarea) { tarea.status = !tarea.status }
+    toggleTarea (state, tarea) { tarea.status = !tarea.status },
+    addTarea (state, tarea) { state.tareas.push(tarea) }
+  },
+  actions: {
+    addTarea ({commit}, tarea) { commit('addTarea', tarea) }
   }
 })
